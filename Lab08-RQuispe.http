@@ -1,0 +1,6 @@
+@Lab08_RQuispe_HostAddress = http://localhost:5023
+
+GET {{Lab08_RQuispe_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
