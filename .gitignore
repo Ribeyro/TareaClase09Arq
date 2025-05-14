@@ -1,22 +1,25 @@
-# Archivos y carpetas generados por Rider
+# Archivos y carpetas de Rider
 .idea/
+*.sln.iml
+*.DotSettings.user
 
-# Archivos de compilación
+# Archivos de compilación y temporales de .NET
 bin/
 obj/
 **/bin/
 **/obj/
-
-# Otros archivos temporales
 *.log
 *.tmp
 *.cache
 *.user
+*.suo
+*.userosscache
+*.vs/
+publish/
+coverage/
 
-# Ignorar archivos y cachés generados automáticamente por .NET
+# Archivos de configuración generados automáticamente
 *.editorconfig
-
-# Archivos específicos generados por Rider o NuGet
 *.nuget.*
 *.dgspec.json
 *.props
@@ -27,30 +30,28 @@ obj/
 *.csproj.nuget.*
 *rider.project.*
 
-# Configuraciones locales sensibles
+# Configuraciones locales o sensibles
 appsettings.Development.json
 appsettings.Local.json
 .env
 secrets.json
 
-# Archivos de configuración de usuario
+# Archivos de solución específicos del usuario
 *.sln.ide
 *.sln.ide.*
 
-# Otros archivos y carpetas comunes
-logs/
-.vs/
-*.suo
-*.userosscache
-publish/
-coverage/
+# Node (en caso de usar frontends embebidos)
 node_modules/
 
-# Ignorar contenido de wwwroot generado, pero mantener carpeta base
-/wwwroot/*
-!/wwwroot/favicon.ico
-!/wwwroot/css/
-/wwwroot/lib/
+# Ignorar contenido generado en wwwroot (mantener estructura base si aplica)
+wwwroot/*
+!wwwroot/favicon.ico
+!wwwroot/css/
+!wwwroot/js/
+!wwwroot/lib/
 
-# (Opcional) Ignorar migraciones si se generan por desarrollador
-# Migrations/
+# (Opcional) Ignorar migraciones si no deben controlarse por Git
+# Infrastructure/Persistence/Migrations/
+
+# Otros (archivos HTTP usados por herramientas tipo REST Client)
+*.http
