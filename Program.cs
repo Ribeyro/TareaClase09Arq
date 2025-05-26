@@ -1,3 +1,4 @@
+using Lab08_RQuispe.Application.Services.Interfaces;
 using Lab08_RQuispe.Data;
 using Lab08_RQuispe.Data.UnitOfWork;
 using Lab08_RQuispe.Services.Implements;
@@ -7,7 +8,8 @@ using Lab08_RQuispe.Services.Productos;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-//Add Services
+
+// 🔌 Inyectar servicios
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IClienteBusquedaService, ClienteBusquedaService>();
 builder.Services.AddScoped<IProductoFiltroService, ProductoFiltroService>();
@@ -21,27 +23,30 @@ builder.Services.AddScoped<IClienteMayorPedidosService, ClienteMayorPedidosServi
 builder.Services.AddScoped<IPedidosConDetallesService, PedidosConDetallesService>();
 builder.Services.AddScoped<IProductosPorClienteService, ProductosPorClienteService>();
 builder.Services.AddScoped<IClientesPorProductoService, ClientesPorProductoService>();
+builder.Services.AddScoped<IClientOrderService, ClientOrderService>();
+builder.Services.AddScoped<IOrderDetailsService, OrderDetailsService>();
+builder.Services.AddScoped<IClientProductCountService, ClientProductCountService>();
+builder.Services.AddScoped<ISalesByClientService, SalesByClientService>();
 
 
-
-
-// 🔌 Obtener la cadena de conexión desde appsettings.json
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-// 💾 Configurar EF Core con Pomelo
+// ✅ Usar solo UNA instancia de AddDbContext
 builder.Services.AddDbContext<Lab08Context>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    ));
 
-// 🔧 Agregar soporte para controladores
+
+// 📘 Configurar servicios básicos de la API
 builder.Services.AddControllers();
-
-// 📘 Configurar Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+Console.WriteLine($"Cadena de conexión: {builder.Configuration.GetConnectionString("DefaultConnection")}");
+
 var app = builder.Build();
 
-// 🚀 Middleware de Swagger
+// 🚀 Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -50,8 +55,5 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-
-// 🔀 Mapear controladores
 app.MapControllers();
-
 app.Run();
